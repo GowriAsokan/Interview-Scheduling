@@ -12,36 +12,6 @@
 <!-- <link rel="stylesheet" href="/resources/demos/style.css">  -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-<script>
-		  $( function() {
-			  $( "#datepicker" ).datepicker({
-			    	dateFormat: 'dd/mm/yy',
-			    	minDate: 0, maxDate: "+1M +20D"
-			   });
-			  
-			  $("#datepicker").datepicker().datepicker("setDate", new Date());
-			  
-			  	$(".hasDatepicker").datepicker({
-				    onSelect: function(dateText) {
-				      $(this).change();
-				    }
-				  }).on("change", function() {
-					  var selecteddate = $( "#mySelect" ).val();
-					  generateTimeSlots(window.staffCollection, selecteddate );
-				  });
-
-			  
-		    
-		  } );
-	 </script>
-</head>
-<script>
-			   	$(document).ready(function(){
-			   	$("p").fadeOut(3000);	
-			   	});
-	   	
-		</script>
 <style>
 #top-header {
 	text-align: center;
@@ -58,21 +28,21 @@ body {
 
 #leftdiv {
 	position: absolute;
-	left: 30px;
+	left: 24px;
 	height: 100%;
-	width: 35%;
+	width: 32%;
 }
 
 #centerdiv {
 	position: absolute;
-	left: 42%;
+	left: 35%;
 	height: 100%;
 	width: 30%;
 }
 
 #rightdiv {
 	position: absolute;
-	right: 0px;
+	right: 15px;
 	height: 100%;
 	width: 35%;
 }
@@ -94,6 +64,10 @@ body {
 #table-section {
 	width: 100%;
 	height: 400px;
+}
+
+#table-section input{
+	width:80%;
 }
 
 td.column1 {
@@ -129,7 +103,7 @@ button {
 
 #datepickerfield {
 	margin-top: 50px;
-	margin-left: 15px;
+	margin-left: 30px;
 	font-size: 15px;
 	position: absolute;
 }
@@ -152,14 +126,6 @@ button {
 	border-radius: 2px;
 	margin-bottom: 10px;
 	display: block;
-}
-
-.error-messages {
-	background-color: #fff39e;
-	border: 1px solid #d2cfcf;
-	text-align: center;
-	margin-top: 25px;
-	width: 180px;
 }
 
 #appointmentInformation_div {
@@ -192,14 +158,47 @@ width: 80%;
     height: 100%;
     position: absolute;
 }
-.forth-div{
-width: 80%;
-    height: 100%;
-    position: absolute;
-
-}
+#popup-message{
+	margin-top: 40%;
+    background-color: #e8e6e5;
+    border: 1px solid #bfb5b5;
+    height: 10%;
+    padding-left: 14%;
+    padding-top: 6%;
+    box-shadow: 8px 10px #6f6767;
+    }
 
 </style>
+<script>
+		  $( function() {
+			  $( "#datepicker" ).datepicker({
+			    	dateFormat: 'dd/mm/yy',
+			    	minDate: 0, maxDate: "+1M +20D"
+			   });
+			  
+			  $("#datepicker").datepicker().datepicker("setDate", new Date());
+			  
+			  	$(".hasDatepicker").datepicker({
+				    onSelect: function(dateText) {
+				      $(this).change();
+				    }
+				  }).on("change", function() {
+					  var selecteddate = $( "#mySelect" ).val();
+					  generateTimeSlots(window.staffCollection, selecteddate );
+				  });
+
+			  
+		    
+		  } );
+	 </script>
+</head>
+<script>
+			   	$(document).ready(function(){
+			   	$("p").fadeOut(3000);	
+			   	});
+	   	
+		</script>
+
 
 <body>
 
@@ -298,20 +297,20 @@ width: 80%;
 			</div>
 		</div>
 
-		<div id="centerdiv">
-			<div id="timeslot_div" style="display: none">
+			<div id="centerdiv">
+			<p id = "popup-message" style="display: none"></p>
+				<div id="timeslot_div" style="display: none">
+					<div id="datepickerfield">
+						Date: <br> <input type="text" class="textfield"
+							id="datepicker" name="datepicker" />
 
-				<div class="error-messages" style="display: none;"></div>
-				<div id="datepickerfield">
-					Date: <br> <input type="text" class="textfield"
-						id="datepicker" name="datepicker" />
-
-
-					<ul id="timeslots_ul"></ul>
+						<p id="noslotsmessage"></p>
+						
+						<ul id="timeslots_ul"></ul>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div id="rightdiv">
+			<div id="rightdiv">
 
 			<div id="appointmentInformation_div" style="display: none">
 
@@ -329,7 +328,7 @@ width: 80%;
 						<span id="selected_time"></span></td>
 					</tr>
 					<tr>
-						<td class="right_column1">Your Info&nbsp:</td>
+						<td class="right_column1">Your Info &nbsp: </td>
 						<td class="right_column2"><span id="customer_name"></span></td>
 					</tr>
 					<tr>
@@ -341,11 +340,6 @@ width: 80%;
 			</div>
 		</div>
 		</div>
-		<div id= "forth-div" style="display: none">
-		<p> I am here</p>
-		</div>
-		
-		
 		
 		</div>
 		
@@ -386,10 +380,11 @@ width: 80%;
    		 });
     	$("#conform_button").click(function(e){
     		 createAppt();
-    		//$("#parent_page").show();    	
-    	//	$("#parent_page").css("opacity", "0.2");
-    	//	 $("#forth-div").show();
-    	
+    		 $("#leftdiv").hide();
+    		 $("#rightdiv").hide();
+    		 $("#timeslot_div").hide();
+    		 $("#popup-message").text("Thankyou! Your Interview Scheduled Successfully.").show();
+    		 
     	});
     });
    
@@ -528,8 +523,10 @@ width: 80%;
 										
 											if(slotCollection.length == 0)
 												{
-													$(".error-messages").text("No Slots Available!").fadeIn("slow").fadeOut("3000");
+													$("#noslotsmessage").text("No Slots Available!").show();
 											
+													}else{
+														$("#noslotsmessage").text("No Slots Available!").hide();
 													}
 										
 													for (var i = 0; i < slotCollection.length; i++) {
